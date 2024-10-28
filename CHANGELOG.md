@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.4](https://github.com/girasolenergy/pyopenems/compare/v1.1.3...v1.1.4) (2024-10-28)
+
+
+### Bug Fixes
+
+* **deps:** bump actions/checkout from 3 to 4 in /.github/workflows ([#5](https://github.com/girasolenergy/pyopenems/issues/5)) ([d4f471e](https://github.com/girasolenergy/pyopenems/commit/d4f471e15aca4d6c1c6f408e2a4a383613d9fc8f))
+
 ## [1.1.3](https://github.com/girasolenergy/pyopenems/compare/v1.1.2...v1.1.3) (2024-10-28)
 
 
