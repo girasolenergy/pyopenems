@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/girasolenergy/pyopenems/compare/v1.1.4...v1.2.0) (2024-10-28)
+
+
+### Features
+
+* add readme settings to pyproject.toml to pypi publishing ([#14](https://github.com/girasolenergy/pyopenems/issues/14)) ([34ead72](https://github.com/girasolenergy/pyopenems/commit/34ead727fdd96af64e5ef3195dfb50fb8a90e80a))
+
 ## [1.1.4](https://github.com/girasolenergy/pyopenems/compare/v1.1.3...v1.1.4) (2024-10-28)
 
 
