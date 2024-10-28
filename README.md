@@ -1,7 +1,6 @@
 # pyopenems
 
-    $ git clone <repo>
-    $ pip install .
+    $ pip install pyopenems
 
 ## cli
 
