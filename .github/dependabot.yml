@@ -8,3 +8,10 @@ updates:
     commit-message:
       prefix: "fix(deps):"
     open-pull-requests-limit: 99
+  - package-ecosystem: "github-actions"
+    directory: "/.github/workflows"
+    schedule:
+      interval: "daily"
+    commit-message:
+      prefix: "fix(deps):"
+    open-pull-requests-limit: 99
