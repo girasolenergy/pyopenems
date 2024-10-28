@@ -16,7 +16,7 @@ jobs:
         experimental: [false]
     container: python:3.12
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: apt-get update && apt-get install -y python3 python3-pip
       - run: pip install --upgrade tox
       - run: tox -e ${{ matrix.toxenv }} || ${{ matrix.experimental }}
@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     container: python:3.12
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: pip install yamllint
       - run: yamllint --format standard .
 
@@ -44,7 +44,7 @@ jobs:
     container:
       image: ${{ matrix.python.container}}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: pip install --upgrade tox
       - run: tox -e ${{ matrix.python.toxenv }} || ${{ matrix.experimental }}
       - name: Upload coverage reports to Codecov
