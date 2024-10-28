@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.3](https://github.com/girasolenergy/pyopenems/compare/v1.1.2...v1.1.3) (2024-10-28)
+
+
+### Bug Fixes
+
+* fix github actions trigger(again) ([#10](https://github.com/girasolenergy/pyopenems/issues/10)) ([d54f6eb](https://github.com/girasolenergy/pyopenems/commit/d54f6eb30d41939ae7c673d1edcf91c5be1420f5))
+
 ## [1.1.2](https://github.com/girasolenergy/pyopenems/compare/v1.1.1...v1.1.2) (2024-10-28)
 
 
