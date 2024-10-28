@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/girasolenergy/pyopenems/compare/v1.2.0...v1.2.1) (2024-10-28)
+
+
+### Bug Fixes
+
+* change content type for pypi publishing ([#16](https://github.com/girasolenergy/pyopenems/issues/16)) ([421d855](https://github.com/girasolenergy/pyopenems/commit/421d855c1675fa7cd383acacaa790891ee183e6e))
+
 ## [1.2.0](https://github.com/girasolenergy/pyopenems/compare/v1.1.4...v1.2.0) (2024-10-28)
 
 
