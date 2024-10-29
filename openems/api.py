@@ -58,7 +58,7 @@ class OpenEMSAPIClient():
             }
             if resolution_sec:
                 params['resolution'] = {
-                    'value': 1,
+                    'value': resolution_sec,
                     'unit': 'SECONDS',
                 }
             r_edge_rpc = await server.edgeRpc(edgeId=edge_id, payload={
