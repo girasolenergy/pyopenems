@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.3](https://github.com/girasolenergy/pyopenems/compare/v1.2.2...v1.2.3) (2024-10-29)
+
+
+### Bug Fixes
+
+* fix forgetting use resolution_sec argument ([#20](https://github.com/girasolenergy/pyopenems/issues/20)) ([aadd594](https://github.com/girasolenergy/pyopenems/commit/aadd594f99d3131bfb4e06e97ce4465e8cebc0e5))
+
 ## [1.2.2](https://github.com/girasolenergy/pyopenems/compare/v1.2.1...v1.2.2) (2024-10-28)
 
 
