@@ -2,9 +2,12 @@
 import asyncio
 import uuid
 
+import jsonrpc_base
 from jsonrpc_websocket import Server
 
 import pandas as pd
+
+from . import exceptions
 
 
 class OpenEMSAPIClient():
@@ -20,14 +23,26 @@ class OpenEMSAPIClient():
         """login."""
         server = Server(self.server_url)
         await server.ws_connect()
-        await server.authenticateWithPassword(username=self.username, password=self.password)
+        try:
+            await server.authenticateWithPassword(username=self.username, password=self.password)
+        except jsonrpc_base.jsonrpc.ProtocolError as e:
+            if type(e.args) is tuple:
+                raise exceptions.APIError(message=f'{e.args[0]}: {e.args[1]}', code=e.args[0])
+            else:
+                raise e
         return server
 
     def get_edges(self):
         """Call getEdges API."""
         async def f():
             server = await self.login()
-            r = await server.getEdges(page=0, limit=20, searchParams={})
+            try:
+                r = await server.getEdges(page=0, limit=20, searchParams={})
+            except jsonrpc_base.jsonrpc.ProtocolError as e:
+                if type(e.args) is tuple:
+                    raise exceptions.APIError(message=f'{e.args[0]}: {e.args[1]}', code=e.args[0])
+                else:
+                    raise e
             return r['edges']
         return asyncio.run(f())
 
@@ -35,13 +50,19 @@ class OpenEMSAPIClient():
         """Call getEdgeConfig API."""
         async def f():
             server = await self.login()
-            r_edge_rpc = await server.edgeRpc(edgeId=edge_id, payload={
-                'jsonrpc': '2.0',
-                'method': 'getEdgeConfig',
-                'params': {
-                },
-                'id': str(uuid.uuid4()),
-            })
+            try:
+                r_edge_rpc = await server.edgeRpc(edgeId=edge_id, payload={
+                    'jsonrpc': '2.0',
+                    'method': 'getEdgeConfig',
+                    'params': {
+                    },
+                    'id': str(uuid.uuid4()),
+                })
+            except jsonrpc_base.jsonrpc.ProtocolError as e:
+                if type(e.args) is tuple:
+                    raise exceptions.APIError(message=f'{e.args[0]}: {e.args[1]}', code=e.args[0])
+                else:
+                    raise e
             r = r_edge_rpc['payload']['result']
             return r
         return asyncio.run(f())
@@ -61,12 +82,18 @@ class OpenEMSAPIClient():
                     'value': resolution_sec,
                     'unit': 'SECONDS',
                 }
-            r_edge_rpc = await server.edgeRpc(edgeId=edge_id, payload={
-                'jsonrpc': '2.0',
-                'method': 'queryHistoricTimeseriesData',
-                'params': params,
-                'id': str(uuid.uuid4()),
-            })
+            try:
+                r_edge_rpc = await server.edgeRpc(edgeId=edge_id, payload={
+                    'jsonrpc': '2.0',
+                    'method': 'queryHistoricTimeseriesData',
+                    'params': params,
+                    'id': str(uuid.uuid4()),
+                })
+            except jsonrpc_base.jsonrpc.ProtocolError as e:
+                if type(e.args) is tuple:
+                    raise exceptions.APIError(message=f'{e.args[0]}: {e.args[1]}', code=e.args[0])
+                else:
+                    raise e
             r = r_edge_rpc['payload']['result']
             df = pd.DataFrame(r['data'], index=r['timestamps'])
             df.index.name = 'Time'
@@ -78,15 +105,21 @@ class OpenEMSAPIClient():
         """Call edgeRpc.updateComponentConfig API."""
         async def f():
             server = await self.login()
-            r_edge_rpc = await server.edgeRpc(edgeId=edge_id, payload={
-                'jsonrpc': '2.0',
-                'method': 'updateComponentConfig',
-                'params': {
-                    'componentId': component_id,
-                    'properties': properties,
-                },
-                'id': str(uuid.uuid4()),
-            })
+            try:
+                r_edge_rpc = await server.edgeRpc(edgeId=edge_id, payload={
+                    'jsonrpc': '2.0',
+                    'method': 'updateComponentConfig',
+                    'params': {
+                        'componentId': component_id,
+                        'properties': properties,
+                    },
+                    'id': str(uuid.uuid4()),
+                })
+            except jsonrpc_base.jsonrpc.ProtocolError as e:
+                if type(e.args) is tuple:
+                    raise exceptions.APIError(message=f'{e.args[0]}: {e.args[1]}', code=e.args[0])
+                else:
+                    raise e
             r = r_edge_rpc['payload']['result']
             return r
         return asyncio.run(f())
