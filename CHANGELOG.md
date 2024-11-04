@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.2.4](https://github.com/girasolenergy/pyopenems/compare/v1.2.3...v1.2.4) (2024-11-04)
+
+
+### Bug Fixes
+
+* add exception class and error throw code ([#25](https://github.com/girasolenergy/pyopenems/issues/25)) ([0359fe6](https://github.com/girasolenergy/pyopenems/commit/0359fe616240b21e02a77084096ed791cf5c3a01))
+* fix double import for openems.__main__ ([#22](https://github.com/girasolenergy/pyopenems/issues/22)) ([72e873f](https://github.com/girasolenergy/pyopenems/commit/72e873f159b0d022b77ded097a81b693a3eec0a7))
+* support incase of channels attribute is missing in component object ([#23](https://github.com/girasolenergy/pyopenems/issues/23)) ([c4b623d](https://github.com/girasolenergy/pyopenems/commit/c4b623dac7b0d9fbfe0eca9b93d09d81ff6afc91))
+
 ## [1.2.3](https://github.com/girasolenergy/pyopenems/compare/v1.2.2...v1.2.3) (2024-10-29)
 
 
