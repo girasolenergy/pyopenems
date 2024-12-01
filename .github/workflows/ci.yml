@@ -40,6 +40,7 @@ jobs:
           - {'toxenv': 'py310', 'container': 'python:3.10'}
           - {'toxenv': 'py311', 'container': 'python:3.11'}
           - {'toxenv': 'py312', 'container': 'python:3.12'}
+          - {'toxenv': 'py313', 'container': 'python:3.13'}
         experimental: [false]
     container:
       image: ${{ matrix.python.container}}
