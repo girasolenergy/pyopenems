@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.5](https://github.com/girasolenergy/pyopenems/compare/v1.2.4...v1.2.5) (2024-12-01)
+
+
+### Bug Fixes
+
+* **deps:** bump codecov/codecov-action from 4 to 5 in /.github/workflows ([#26](https://github.com/girasolenergy/pyopenems/issues/26)) ([9678179](https://github.com/girasolenergy/pyopenems/commit/9678179f9c5620377bf76ab0d5717665bad52c24))
+
 ## [1.2.4](https://github.com/girasolenergy/pyopenems/compare/v1.2.3...v1.2.4) (2024-11-04)
 
 
