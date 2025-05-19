@@ -139,13 +139,13 @@ class OpenEMSAPIClient():
         )
 
     def get_meter_list(self, edge_id):
-        """Extract meter list form edge config."""
+        """Extract meter list from edge config."""
         edge_config = self.get_edge_config(edge_id)
         components = edge_config['components']
         return dict([(k, v) for (k, v) in components.items() if v['factoryId'].split('.')[0] == 'Meter'])
 
     def get_pvinverter_list(self, edge_id):
-        """Extract pvinverter list form edge config."""
+        """Extract pvinverter list from edge config."""
         edge_config = self.get_edge_config(edge_id)
         components = edge_config['components']
         return dict([(k, v) for (k, v) in components.items() if v['factoryId'].split('.')[0] == 'PVInverter'])

@@ -24,7 +24,7 @@
           },
           "channels": {
 
-### fetcing meter value
+### fetching meter value
 
     $ python -m openems ... get-meter-list edge0
     meter0
@@ -56,7 +56,7 @@
     2024-01-01T14:50:00Z,5838000.0
     2024-01-01T14:55:00Z,5838100.0
 
-### fetcing pvinverter value
+### fetching pvinverter value
 
     $ python -m openems ... get-pvinverter-list edge0
     pvInverter1
