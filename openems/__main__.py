@@ -55,9 +55,9 @@ def get_meter_list(ctx, edge_id):
 @click.argument('edge-id')
 def get_pvinverter_list(ctx, edge_id):
     """Get OpenEMS PVInverter List."""
-    meters = ctx.obj['client'].get_pvinverter_list(edge_id)
+    pvinverters = ctx.obj['client'].get_pvinverter_list(edge_id)
 
-    for (k, _) in meters.items():
+    for (k, _) in pvinverters.items():
         click.echo(click.style(k, fg='green'))
 
 
