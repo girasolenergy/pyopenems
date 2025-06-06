@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.2.5](https://github.com/girasolenergy/pyopenems/compare/v1.2.4...v1.2.5) (2025-06-06)
+
+
+### Bug Fixes
+
+* **deps:** bump codecov/codecov-action from 4 to 5 in /.github/workflows ([#26](https://github.com/girasolenergy/pyopenems/issues/26)) ([9678179](https://github.com/girasolenergy/pyopenems/commit/9678179f9c5620377bf76ab0d5717665bad52c24))
+* Fix typos and variable naming ([#30](https://github.com/girasolenergy/pyopenems/issues/30)) ([8c9b9b5](https://github.com/girasolenergy/pyopenems/commit/8c9b9b508a25bfc566ff2329c1737839937e6ad8))
+* pandasのbump ([#32](https://github.com/girasolenergy/pyopenems/issues/32)) ([9725d0e](https://github.com/girasolenergy/pyopenems/commit/9725d0e7385e2fb6c34a2ec5be51f7d710c7517e))
+
 ## [1.2.4](https://github.com/girasolenergy/pyopenems/compare/v1.2.3...v1.2.4) (2024-11-04)
 
 
