@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/girasolenergy/pyopenems/compare/v1.2.5...v1.3.0) (2025-06-13)
+
+
+### Features
+
+* claude code action 追加 ([#33](https://github.com/girasolenergy/pyopenems/issues/33)) ([fc4d6d1](https://github.com/girasolenergy/pyopenems/commit/fc4d6d1066a6edecd58c82a54a1fb3fab0b0a443))
+
 ## [1.2.5](https://github.com/girasolenergy/pyopenems/compare/v1.2.4...v1.2.5) (2025-06-06)
 
 
