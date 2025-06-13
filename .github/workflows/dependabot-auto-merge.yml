@@ -1,0 +1,43 @@
+---
+name: Merge on green for Dependabot
+
+on:  # yamllint disable-line rule:truthy
+  workflow_run:
+    workflows: ["ci"]
+    types: [completed]
+
+permissions:
+  contents: write  # gh pr merge
+  pull-requests: write  # gh pr review --approve
+
+jobs:
+  merge:
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.actor.login == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get PR URL and number
+        id: pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          pr_json=$(gh api "/repos/${{ github.repository }}/commits/${{ github.event.workflow_run.head_sha }}/pulls?per_page=1")
+          echo "url=$(echo "$pr_json" | jq -r '.[0].html_url')" >> "$GITHUB_OUTPUT"
+          echo "num=$(echo "$pr_json" | jq -r '.[0].number')" >> "$GITHUB_OUTPUT"
+
+      - name: Approve PR
+        if: steps.pr.outputs.url != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr review --approve --body "Automated approval for Dependabot" "${{ steps.pr.outputs.num }}"
+
+      - name: Merge now
+        if: steps.pr.outputs.url != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr merge --squash "${{ steps.pr.outputs.url }}"
