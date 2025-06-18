@@ -15,23 +15,31 @@ class OpenEMSAPIClient():
     """OpenEMS API Client Class."""
 
     def __init__(self, server_url, username, password):
-        """__init__."""
+        """Create client instance and initialize connection helpers."""
         self.server_url = server_url
         self.username = username
         self.password = password
+        self._server = None
+        self._loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(self._loop)
+
+    def __del__(self):
+        """Ensure connection is closed on garbage collection."""
+        self.close()
 
     async def login(self):
-        """login."""
-        server = Server(self.server_url)
-        await server.ws_connect()
-        try:
-            await server.authenticateWithPassword(username=self.username, password=self.password)
-        except jsonrpc_base.jsonrpc.ProtocolError as e:
-            if type(e.args) is tuple:
-                raise exceptions.APIError(message=f'{e.args[0]}: {e.args[1]}', code=e.args[0])
-            else:
-                raise e
-        return server
+        """Return an authenticated websocket server connection."""
+        if self._server is None:
+            server = Server(self.server_url)
+            await server.ws_connect()
+            try:
+                await server.authenticateWithPassword(username=self.username, password=self.password)
+            except jsonrpc_base.jsonrpc.ProtocolError as e:
+                if isinstance(e.args, tuple):
+                    raise exceptions.APIError(message=f'{e.args[0]}: {e.args[1]}', code=e.args[0])
+                raise
+            self._server = server
+        return self._server
 
     def get_edges(self):
         """Call getEdges API."""
@@ -40,12 +48,11 @@ class OpenEMSAPIClient():
             try:
                 r = await server.getEdges(page=0, limit=20, searchParams={})
             except jsonrpc_base.jsonrpc.ProtocolError as e:
-                if type(e.args) is tuple:
+                if isinstance(e.args, tuple):
                     raise exceptions.APIError(message=f'{e.args[0]}: {e.args[1]}', code=e.args[0])
-                else:
-                    raise e
+                raise
             return r['edges']
-        return asyncio.run(f())
+        return self._loop.run_until_complete(f())
 
     def get_edge_config(self, edge_id):
         """Call getEdgeConfig API."""
@@ -60,13 +67,12 @@ class OpenEMSAPIClient():
                     'id': str(uuid.uuid4()),
                 })
             except jsonrpc_base.jsonrpc.ProtocolError as e:
-                if type(e.args) is tuple:
+                if isinstance(e.args, tuple):
                     raise exceptions.APIError(message=f'{e.args[0]}: {e.args[1]}', code=e.args[0])
-                else:
-                    raise e
+                raise
             r = r_edge_rpc['payload']['result']
             return r
-        return asyncio.run(f())
+        return self._loop.run_until_complete(f())
 
     def query_historic_timeseries_data(self, edge_id, start, end, channels, resolution_sec=None):
         """Call edgeRpc.queryHistoricTimeseriesData API."""
@@ -91,16 +97,15 @@ class OpenEMSAPIClient():
                     'id': str(uuid.uuid4()),
                 })
             except jsonrpc_base.jsonrpc.ProtocolError as e:
-                if type(e.args) is tuple:
+                if isinstance(e.args, tuple):
                     raise exceptions.APIError(message=f'{e.args[0]}: {e.args[1]}', code=e.args[0])
-                else:
-                    raise e
+                raise
             r = r_edge_rpc['payload']['result']
             df = pd.DataFrame(r['data'], index=r['timestamps'])
             df.index.name = 'Time'
             df.index = pd.to_datetime(df.index)
             return df
-        return asyncio.run(f())
+        return self._loop.run_until_complete(f())
 
     def update_component_config(self, edge_id, component_id, properties):
         """Call edgeRpc.updateComponentConfig API."""
@@ -117,13 +122,12 @@ class OpenEMSAPIClient():
                     'id': str(uuid.uuid4()),
                 })
             except jsonrpc_base.jsonrpc.ProtocolError as e:
-                if type(e.args) is tuple:
+                if isinstance(e.args, tuple):
                     raise exceptions.APIError(message=f'{e.args[0]}: {e.args[1]}', code=e.args[0])
-                else:
-                    raise e
+                raise
             r = r_edge_rpc['payload']['result']
             return r
-        return asyncio.run(f())
+        return self._loop.run_until_complete(f())
 
     def update_component_config_from_name_value(self, edge_id, component_id, name, value):
         """Call edgeRpc.updateComponentConfig API.
@@ -149,3 +153,12 @@ class OpenEMSAPIClient():
         edge_config = self.get_edge_config(edge_id)
         components = edge_config['components']
         return dict([(k, v) for (k, v) in components.items() if v['factoryId'].split('.')[0] == 'PVInverter'])
+
+    def close(self):
+        """Close websocket connection and event loop."""
+        async def f():
+            if self._server is not None:
+                await self._server.close()
+
+        if not self._loop.is_closed():
+            self._loop.run_until_complete(f())
