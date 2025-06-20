@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/girasolenergy/pyopenems/compare/v1.4.0...v1.5.0) (2025-06-20)
+
+
+### Features
+
+* switch new channel api ([#41](https://github.com/girasolenergy/pyopenems/issues/41)) ([c7fc5c3](https://github.com/girasolenergy/pyopenems/commit/c7fc5c3d414e4a4319113c166ac8ce3ef14a7e25))
+
 ## [1.3.0](https://github.com/girasolenergy/pyopenems/compare/v1.2.5...v1.3.0) (2025-06-13)
 
 
