@@ -74,6 +74,35 @@ class OpenEMSAPIClient():
             return r
         return self._loop.run_until_complete(f())
 
+    def get_channels_of_component(self, edge_id, component_id):
+        """Call getChannelsOfComponent API."""
+        async def f():
+            server = await self.login()
+            try:
+                r_edge_rpc = await server.edgeRpc(edgeId=edge_id, payload={
+                    'jsonrpc': '2.0',
+                    'method': 'componentJsonApi',
+                    'params': {
+                        'componentId': '_componentManager',
+                        'payload': {
+                            'jsonrpc': '2.0',
+                            'method': 'getChannelsOfComponent',
+                            'params': {
+                                'componentId': component_id,
+                            },
+                            'id': str(uuid.uuid4()),
+                        },
+                    },
+                    'id': str(uuid.uuid4()),
+                })
+            except jsonrpc_base.jsonrpc.ProtocolError as e:
+                if isinstance(e.args, tuple):
+                    raise exceptions.APIError(message=f'{e.args[0]}: {e.args[1]}', code=e.args[0])
+                raise
+            r = r_edge_rpc['payload']['result']
+            return r
+        return self._loop.run_until_complete(f())
+
     def query_historic_timeseries_data(self, edge_id, start, end, channels, resolution_sec=None):
         """Call edgeRpc.queryHistoricTimeseriesData API."""
         async def f():

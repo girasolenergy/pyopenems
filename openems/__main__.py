@@ -67,11 +67,9 @@ def get_pvinverter_list(ctx, edge_id):
 @click.argument('component-id')
 def get_channel_list(ctx, edge_id, component_id):
     """Get OpenEMS Channel List."""
-    edge_config = ctx.obj['client'].get_edge_config(edge_id)
-
-    component = [v for (k, v) in edge_config['components'].items() if k == component_id][0]
-    for channel in component.get('channels', []):
-        click.echo(click.style(f'{component_id}/{channel}', fg='green'))
+    channels = ctx.obj['client'].get_channels_of_component(edge_id, component_id)['channels']
+    for channel in channels:
+        click.echo(click.style(f'{component_id}/{channel["id"]}', fg='green'))
 
 
 @openems_cli.command()
