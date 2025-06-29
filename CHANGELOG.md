@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.1](https://github.com/girasolenergy/pyopenems/compare/v1.5.0...v1.5.1) (2025-06-29)
+
+
+### Bug Fixes
+
+* pytestの出力を色付けする ([#43](https://github.com/girasolenergy/pyopenems/issues/43)) ([63c873f](https://github.com/girasolenergy/pyopenems/commit/63c873fea0f3c911926bfa935d96a2b747a7d4b5))
+
 ## [1.5.0](https://github.com/girasolenergy/pyopenems/compare/v1.4.0...v1.5.0) (2025-06-20)
 
 
