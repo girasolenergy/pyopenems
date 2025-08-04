@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/girasolenergy/pyopenems/compare/v1.5.1...v1.6.0) (2025-08-04)
+
+
+### Features
+
+* increase edge list max length 20 to 500 ([#45](https://github.com/girasolenergy/pyopenems/issues/45)) ([f3336f0](https://github.com/girasolenergy/pyopenems/commit/f3336f0f09c558d1ae74916932e5046cdc37eb9b))
+
 ## [1.5.1](https://github.com/girasolenergy/pyopenems/compare/v1.5.0...v1.5.1) (2025-06-29)
 
 
