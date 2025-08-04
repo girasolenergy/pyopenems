@@ -46,7 +46,7 @@ class OpenEMSAPIClient():
         async def f():
             server = await self.login()
             try:
-                r = await server.getEdges(page=0, limit=20, searchParams={})
+                r = await server.getEdges(page=0, limit=500, searchParams={})
             except jsonrpc_base.jsonrpc.ProtocolError as e:
                 if isinstance(e.args, tuple):
                     raise exceptions.APIError(message=f'{e.args[0]}: {e.args[1]}', code=e.args[0])
