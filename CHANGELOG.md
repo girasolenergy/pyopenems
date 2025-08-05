@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://github.com/girasolenergy/pyopenems/compare/v1.6.0...v1.7.0) (2025-08-05)
+
+
+### Features
+
+* add pagination for get_edges ([#47](https://github.com/girasolenergy/pyopenems/issues/47)) ([41daba5](https://github.com/girasolenergy/pyopenems/commit/41daba523602be1689e38ee12b4b4557906c4aee))
+
 ## [1.6.0](https://github.com/girasolenergy/pyopenems/compare/v1.5.1...v1.6.0) (2025-08-04)
 
 
