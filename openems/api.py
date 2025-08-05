@@ -1,5 +1,6 @@
 """OpenEMS API."""
 import asyncio
+import platform
 import uuid
 
 import jsonrpc_base
@@ -20,8 +21,18 @@ class OpenEMSAPIClient():
         self.username = username
         self.password = password
         self._server = None
-        self._loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(self._loop)
+        
+        # Windows compatibility fix
+        if platform.system() == 'Windows':
+            asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+        
+        try:
+            self._loop = asyncio.get_event_loop()
+            if self._loop.is_closed():
+                raise RuntimeError("Event loop is closed")
+        except RuntimeError:
+            self._loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(self._loop)
 
     def __del__(self):
         """Ensure connection is closed on garbage collection."""
