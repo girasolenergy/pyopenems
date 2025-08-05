@@ -31,12 +31,20 @@ class OpenEMSAPIClient():
         """Return an authenticated websocket server connection."""
         if self._server is None:
             server = Server(self.server_url)
-            await server.ws_connect()
             try:
-                await server.authenticateWithPassword(username=self.username, password=self.password)
+                await server.ws_connect()
+                await server.authenticateWithPassword(
+                    username=self.username, password=self.password
+                )
             except jsonrpc_base.jsonrpc.ProtocolError as e:
+                await server.close()
                 if isinstance(e.args, tuple):
-                    raise exceptions.APIError(message=f'{e.args[0]}: {e.args[1]}', code=e.args[0])
+                    raise exceptions.APIError(
+                        message=f"{e.args[0]}: {e.args[1]}", code=e.args[0]
+                    )
+                raise
+            except Exception:
+                await server.close()
                 raise
             self._server = server
         return self._server
@@ -196,6 +204,8 @@ class OpenEMSAPIClient():
         async def f():
             if self._server is not None:
                 await self._server.close()
+                self._server = None
 
         if not self._loop.is_closed():
             self._loop.run_until_complete(f())
+            self._loop.close()
