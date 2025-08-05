@@ -45,13 +45,21 @@ class OpenEMSAPIClient():
         """Call getEdges API."""
         async def f():
             server = await self.login()
-            try:
-                r = await server.getEdges(page=0, limit=500, searchParams={})
-            except jsonrpc_base.jsonrpc.ProtocolError as e:
-                if isinstance(e.args, tuple):
-                    raise exceptions.APIError(message=f'{e.args[0]}: {e.args[1]}', code=e.args[0])
-                raise
-            return r['edges']
+            page = 0
+            limit = 100
+            edges = []
+            while True:
+                try:
+                    r = await server.getEdges(page=page, limit=limit, searchParams={})
+                except jsonrpc_base.jsonrpc.ProtocolError as e:
+                    if isinstance(e.args, tuple):
+                        raise exceptions.APIError(message=f'{e.args[0]}: {e.args[1]}', code=e.args[0])
+                    raise
+                edges.extend(r['edges'])
+                if len(r['edges']) < limit:
+                    break
+                page += 1
+            return edges
         return self._loop.run_until_complete(f())
 
     def get_edge_config(self, edge_id):
