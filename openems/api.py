@@ -1,5 +1,6 @@
 """OpenEMS API."""
 import asyncio
+import sys
 import uuid
 
 import jsonrpc_base
@@ -20,6 +21,8 @@ class OpenEMSAPIClient():
         self.username = username
         self.password = password
         self._server = None
+        if sys.platform.startswith('win'):
+            asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
         self._loop = asyncio.new_event_loop()
         asyncio.set_event_loop(self._loop)
 
