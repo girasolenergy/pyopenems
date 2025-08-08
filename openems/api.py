@@ -25,7 +25,7 @@ class OpenEMSAPIClient():
 
     def __del__(self):
         """Ensure connection is closed on garbage collection."""
-        self.close()
+        self._bridge.shutdown()
 
     async def login(self):
         """Return an authenticated websocket server connection."""
@@ -190,12 +190,3 @@ class OpenEMSAPIClient():
         edge_config = self.get_edge_config(edge_id)
         components = edge_config['components']
         return dict([(k, v) for (k, v) in components.items() if v['factoryId'].split('.')[0] == 'PVInverter'])
-
-    def close(self):
-        """Close websocket connection and event loop."""
-        async def f():
-            await self._server.close()
-        try:
-            self._bridge.run(f)
-        finally:
-            self._bridge.shutdown()
