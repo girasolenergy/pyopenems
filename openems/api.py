@@ -8,6 +8,7 @@ from jsonrpc_websocket import Server
 
 import pandas as pd
 
+from .utils.bridge import ASGIRefBridge
 from . import exceptions
 
 
@@ -20,8 +21,7 @@ class OpenEMSAPIClient():
         self.username = username
         self.password = password
         self._server = None
-        self._loop = asyncio.new_event_loop()
-        asyncio.set_event_loop(self._loop)
+        self._bridge = ASGIRefBridge()
 
     def __del__(self):
         """Ensure connection is closed on garbage collection."""
@@ -80,7 +80,7 @@ class OpenEMSAPIClient():
                 raise
             r = r_edge_rpc['payload']['result']
             return r
-        return self._loop.run_until_complete(f())
+        return self._bridge.run(f)
 
     def get_channels_of_component(self, edge_id, component_id):
         """Call getChannelsOfComponent API."""
@@ -109,7 +109,7 @@ class OpenEMSAPIClient():
                 raise
             r = r_edge_rpc['payload']['result']
             return r
-        return self._loop.run_until_complete(f())
+        return self._bridge.run(f)
 
     def query_historic_timeseries_data(self, edge_id, start, end, channels, resolution_sec=None):
         """Call edgeRpc.queryHistoricTimeseriesData API."""
@@ -142,7 +142,7 @@ class OpenEMSAPIClient():
             df.index.name = 'Time'
             df.index = pd.to_datetime(df.index)
             return df
-        return self._loop.run_until_complete(f())
+        return self._bridge.run(f)
 
     def update_component_config(self, edge_id, component_id, properties):
         """Call edgeRpc.updateComponentConfig API."""
@@ -164,7 +164,7 @@ class OpenEMSAPIClient():
                 raise
             r = r_edge_rpc['payload']['result']
             return r
-        return self._loop.run_until_complete(f())
+        return self._bridge.run(f)
 
     def update_component_config_from_name_value(self, edge_id, component_id, name, value):
         """Call edgeRpc.updateComponentConfig API.
@@ -194,8 +194,8 @@ class OpenEMSAPIClient():
     def close(self):
         """Close websocket connection and event loop."""
         async def f():
-            if self._server is not None:
-                await self._server.close()
-
-        if not self._loop.is_closed():
-            self._loop.run_until_complete(f())
+            await self._server.close()
+        try:
+            self._bridge.run(f)
+        finally:
+            self._bridge.shutdown()
