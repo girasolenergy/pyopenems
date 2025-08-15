@@ -90,9 +90,10 @@ def update_component_config(ctx, edge_id, component_id, name, value):
 @click.argument('channel')
 @click.argument('start', type=click.DateTime(['%Y-%m-%d']))
 @click.argument('end', type=click.DateTime(['%Y-%m-%d']))
-def get_channel_data(ctx, edge_id, channel, start, end):
+@click.argument('resolution-sec', type=int)
+def get_channel_data(ctx, edge_id, channel, start, end, resolution_sec):
     """Get OpenEMS Channel Data."""
-    df = ctx.obj['client'].query_historic_timeseries_data(edge_id, start.date(), end.date(), [channel])
+    df = ctx.obj['client'].query_historic_timeseries_data(edge_id, start.date(), end.date(), [channel], resolution_sec)
 
     click.echo(click.style(df.to_csv(), fg='green'))
 
