@@ -35,8 +35,6 @@ jobs:
       fail-fast: false
       matrix:
         python:
-          - {'toxenv': 'py38', 'container': 'python:3.8'}
-          - {'toxenv': 'py39', 'container': 'python:3.9'}
           - {'toxenv': 'py310', 'container': 'python:3.10'}
           - {'toxenv': 'py311', 'container': 'python:3.11'}
           - {'toxenv': 'py312', 'container': 'python:3.12'}
