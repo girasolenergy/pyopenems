@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.8.0](https://github.com/girasolenergy/pyopenems/compare/v1.7.0...v1.8.0) (2025-08-15)
+
+
+### Features
+
+* fix  exisiting event loop problem ([#52](https://github.com/girasolenergy/pyopenems/issues/52)) ([b3d1e0e](https://github.com/girasolenergy/pyopenems/commit/b3d1e0ea057277ce9d620c62906d5b106edbc8dc))
+
+
+### Bug Fixes
+
+* **deps:** bump actions/checkout from 4 to 5 in /.github/workflows ([#51](https://github.com/girasolenergy/pyopenems/issues/51)) ([9a94d81](https://github.com/girasolenergy/pyopenems/commit/9a94d81ed207ec4c7a8324fdf1001ab8c7295114))
+* **deps:** bump actions/download-artifact from 4 to 5 in /.github/workflows ([#50](https://github.com/girasolenergy/pyopenems/issues/50)) ([dbe3f0c](https://github.com/girasolenergy/pyopenems/commit/dbe3f0cda449731f7142fd4079d578cfe42f8cb6))
+
 ## [1.7.0](https://github.com/girasolenergy/pyopenems/compare/v1.6.0...v1.7.0) (2025-08-05)
 
 
