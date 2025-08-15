@@ -1,15 +1,12 @@
 """OpenEMS API."""
-import asyncio
 import uuid
 
 import jsonrpc_base
-
 from jsonrpc_websocket import Server
-
 import pandas as pd
 
-from .utils.bridge import ASGIRefBridge
 from . import exceptions
+from .utils.bridge import ASGIRefBridge
 
 
 class OpenEMSAPIClient():
