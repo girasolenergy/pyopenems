@@ -1,7 +1,8 @@
 """ASGI Reference Bridge utilities."""
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
-from typing import Any, Callable
+from typing import Any
+from typing import Callable
 
 from asgiref.sync import async_to_sync
 
@@ -11,7 +12,7 @@ class ASGIRefBridge:
 
     def __init__(self, max_workers: int = 1) -> None:
         """Initialize the ASGI Reference Bridge.
-        
+
         Args:
             max_workers: Maximum number of worker threads.
         """
@@ -24,13 +25,13 @@ class ASGIRefBridge:
 
     def run(self, async_fn: Callable[..., Any], /, *args, timeout: float | None = None, **kwargs) -> Any:
         """Run an async function in the appropriate context.
-        
+
         Args:
             async_fn: The async function to run.
             *args: Positional arguments for the function.
             timeout: Timeout for execution.
             **kwargs: Keyword arguments for the function.
-            
+
         Returns:
             The result of the async function.
         """
@@ -42,7 +43,7 @@ class ASGIRefBridge:
 
     def isinloop(self):
         """Check if currently running in an event loop.
-        
+
         Returns:
             True if in an active event loop, False otherwise.
         """
