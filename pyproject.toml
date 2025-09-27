@@ -20,3 +20,7 @@ find = {}
 readme = {file = 'README.md', content-type='text/markdown'}
 
 [tool.setuptools_scm]
+
+[tool.black]
+line-length = 240
+skip-string-normalization = 1
