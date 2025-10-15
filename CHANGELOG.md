@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.9.0](https://github.com/girasolenergy/pyopenems/compare/v1.8.0...v1.9.0) (2025-10-15)
+
+
+### Features
+
+* introduce black ([#56](https://github.com/girasolenergy/pyopenems/issues/56)) ([b72f40e](https://github.com/girasolenergy/pyopenems/commit/b72f40edf5c020c29dda9eeb5d53e96e76ca4dd9))
+* skip check of GHSA-4xh5-x5gv-qwph ([#60](https://github.com/girasolenergy/pyopenems/issues/60)) ([47cdffc](https://github.com/girasolenergy/pyopenems/commit/47cdffcb1a305cedc94cba94b12b2adfd610223b))
+
+
+### Bug Fixes
+
+* **deps:** bump actions/setup-python from 5 to 6 in /.github/workflows ([#54](https://github.com/girasolenergy/pyopenems/issues/54)) ([4740936](https://github.com/girasolenergy/pyopenems/commit/4740936a6f9fc4cba112c545a0f2b56725343273))
+* drop pydocstyle, flake8-coding, mccabe ([#55](https://github.com/girasolenergy/pyopenems/issues/55)) ([ddc24c2](https://github.com/girasolenergy/pyopenems/commit/ddc24c21a6e1adb43b428d0783a805b7fd75385a))
+
 ## [1.8.0](https://github.com/girasolenergy/pyopenems/compare/v1.7.0...v1.8.0) (2025-08-15)
 
 
