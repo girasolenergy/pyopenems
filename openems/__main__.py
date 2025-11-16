@@ -12,7 +12,7 @@ from . import api
 @click.option('--username', default='admin')
 @click.option('--password', default='password')
 def openems_cli(ctx, server_url, username, password):
-    """OpenEMS CLI.
+    """Command-line interface for OpenEMS.
 
     Args:
         ctx: Click context object.

@@ -40,6 +40,7 @@ class OpenEMSAPIClient():
 
         Raises:
             APIError: If authentication fails.
+            jsonrpc_base.jsonrpc.ProtocolError: If an unexpected protocol error occurs.
         """
         if self._server is None or not hasattr(self._server, 'connected') or not self._server.connected:
             server = Server(self.server_url)
