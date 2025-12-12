@@ -147,5 +147,44 @@ def get_channel_data(ctx, edge_id, channel, start, end, resolution_sec):
     click.echo(click.style(df.to_csv(), fg='green'))
 
 
+@openems_cli.command()
+@click.pass_context
+@click.argument('edge-id')
+@click.argument('channel')
+@click.argument('start', type=click.DateTime(['%Y-%m-%d']))
+@click.argument('end', type=click.DateTime(['%Y-%m-%d']))
+@click.argument('resolution-sec', type=int)
+def get_futuristic_channel_data(ctx, edge_id, channel, start, end, resolution_sec):
+    """Get OpenEMS Channel Data with Future Forecast.
+
+    This command retrieves both historical data from InfluxDB and future forecast data
+    from the edge device. The backend automatically splits the time range at 'now':
+    - Historical data: [start, now) from InfluxDB
+    - Future data: [now, end] from edge component's schedule
+
+    The component ID is automatically extracted from the channel name
+    (e.g., 'ctrloutput0/GridOrderCurtailmentRate' -> component_id='ctrloutput0').
+
+    Args:
+        ctx: Click context object.
+        edge_id: Edge device ID.
+        channel: Channel name (e.g., 'ctrloutput0/GridOrderCurtailmentRate').
+        start: Start date for data query.
+        end: End date for data query (can be in the future).
+        resolution_sec: Data resolution in seconds.
+    """
+    # Extract component ID from channel name (format: component_id/channel_name)
+    component_id = channel.split('/')[0] if '/' in channel else None
+    if not component_id:
+        click.echo(click.style('Error: Channel name must be in format "component_id/channel_name"', fg='red'))
+        return
+
+    df = ctx.obj['client'].query_futuristic_timeseries_data(
+        edge_id, start.date(), end.date(), [channel], component_id, resolution_sec
+    )
+
+    click.echo(click.style(df.to_csv(), fg='green'))
+
+
 if __name__ == '__main__':
     openems_cli(auto_envvar_prefix='OPENEMS_CLI')

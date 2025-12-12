@@ -265,3 +265,55 @@ class OpenEMSAPIClient():
         edge_config = self.get_edge_config(edge_id)
         components = edge_config['components']
         return dict([(k, v) for (k, v) in components.items() if v['factoryId'].split('.')[0] == 'PVInverter'])
+
+    def query_futuristic_timeseries_data(self, edge_id, start, end, channels, component_id, resolution_sec=None):
+        """Call edgeRpc.queryFuturisticTimeseriesData API.
+
+        This API combines historical data from InfluxDB and future data from edge RPC.
+        The backend automatically splits the time range at 'now':
+        - [start, now): Retrieved from InfluxDB (historical)
+        - [now, end]: Retrieved from edge via componentJsonApi.getTimeToRateMap (future)
+
+        Args:
+            edge_id: Edge device ID.
+            start: Start date for data query.
+            end: End date for data query.
+            channels: List of channel names to query (e.g., ['ctrloutput0/GridOrderCurtailmentRate']).
+            component_id: Component ID to query future data from (e.g., 'ctrloutput0', 'gridSchedule0').
+            resolution_sec: Optional data resolution in seconds.
+
+        Returns:
+            pd.DataFrame: Time-series data with timestamps as index and channels as columns,
+                         combining both historical and future data.
+        """
+        async def f():
+            server = await self.login()
+            params = {
+                'timezone': 'Asia/Tokyo',
+                'fromDate': start.isoformat(),
+                'toDate': end.isoformat(),
+                'channels': channels,
+                'componentId': component_id,
+            }
+            if resolution_sec:
+                params['resolution'] = {
+                    'value': resolution_sec,
+                    'unit': 'SECONDS',
+                }
+            try:
+                r_edge_rpc = await server.edgeRpc(edgeId=edge_id, payload={
+                    'jsonrpc': '2.0',
+                    'method': 'queryFuturisticTimeseriesData',
+                    'params': params,
+                    'id': str(uuid.uuid4()),
+                })
+            except jsonrpc_base.jsonrpc.ProtocolError as e:
+                if isinstance(e.args, tuple):
+                    raise exceptions.APIError(message=f'{e.args[0]}: {e.args[1]}', code=e.args[0])
+                raise
+            r = r_edge_rpc['payload']['result']
+            df = pd.DataFrame(r['data'], index=r['timestamps'])
+            df.index.name = 'Time'
+            df.index = pd.to_datetime(df.index)
+            return df
+        return self._bridge.run(f)
