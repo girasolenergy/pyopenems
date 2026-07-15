@@ -9,7 +9,7 @@ dependencies = [
     'click>=8.1,<8.5',
     'jsonrpc-websocket>=3.1,<3.3',
     'pandas>=2.0,<2.4',
-    'asgiref>=3.9,<3.12',
+    'asgiref>=3.9,<3.13',
 ]
 dynamic = ['version', 'readme']
 
